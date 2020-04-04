@@ -22,7 +22,7 @@ print("""================================================================
 Jeni lidhur ne serverin me host ""","|",serverName,"|"," ne portin ",serverPort)
 
 try:
-        print("""================================================================
+    print("""================================================================
 Shkruani me shkronja te medha komanden qe doni ta perdorni:               
 \ IPADDRESS                                      
 \ PORT                        
@@ -32,8 +32,8 @@ Shkruani me shkronja te medha komanden qe doni ta perdorni:
 \ TIME                         
 \ GAME
 \ GCF <HAPSIRE> <NR1> <HAPSIRE> <NR2>   
-\ CONVERT <HAPSIRE> Opcioni<cmToFeet,FeetToCm,kmToMiles,MileToKm> <HAPSIRE> <HAPSIRE> <NR>
-\ CHANGE <HOST or PORT> <VALUE> ***WARNING YOU WILL BE DISCONNECTED FROM THE CURRENT SERVER*** 
+\ CONVERT <HAPSIRE> Opcioni<cmToFeet,FeetToCm,kmToMiles,MileToKm> <HAPSIRE> <NR>
+\ CHANGE (Per te ndryshuar lidhjen me server)
 \ MORSE-CODE <HAPSIRE> <ENCODE OR DECODE> <HAPSIRE> <tekst>      
 Shkruaj \"EXIT\" per te ndaluar programi!\n """)  
     while True:              
@@ -41,14 +41,25 @@ Shkruaj \"EXIT\" per te ndaluar programi!\n """)
         if method.upper() == "EXIT":
             break
         elif method == '':
-            print("Shkruani njeren nga komandat me siper!")            
+            print("Shkruani njeren nga komandat me siper!")   
+        elif method == "CHANGE":
+            print("================================================================")
+            try:
+                clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                serverName1 = input("Host: ")
+                serverPort1 = int(input("Port: "))
+                clientSocket.connect((serverName1, serverPort1)) 
+            except socket.error as msg:
+                print("Socket creation error: "+str(msg))
+            print("""================================================================\nJeni lidhur ne serverin me host ""","|",serverName1,"|"," ne portin ",serverPort1,"\n")   
         else:
             clientSocket.sendall(str.encode(method))
             serverAnswerByte = clientSocket.recv(128)
             serverAnswer = serverAnswerByte.decode("utf-8")
             print(serverAnswer)
-            print("Vazhdoni me kerkese tjeter ose shtyp EXIT per dalje.")           
+            print("Vazhdoni me kerkese tjeter ose shkruaj EXIT per dalje.")           
 except TimeoutError:
         print("Serveri morri shume kohe per tu pergjigjur andaj lidhja u mbyll!")
 
+clientSocket.close()
  
