@@ -28,7 +28,7 @@ Shkruani me shkronja te medha komanden qe doni ta perdorni:
 \ MORSE-CODE <HAPSIRE> <ENCODE OR DECODE> <HAPSIRE> <tekst>      
 Shkruaj \"EXIT\" per te ndaluar programi!""")                         
     while True:
-            komandat = ["IPADDRESS","PORT","COUNT","REVERSE","PALINDROME","TIME","GAME","GCF","CONVERT","MORSE-CODE"]
+            # komandat = ["IPADDRESS","PORT","COUNT","REVERSE","PALINDROME","TIME","GAME","GCF","CONVERT","MORSE-CODE"]
             method = input("KOMANDA \\ ")
             if method.upper() == "EXIT":
                 break
@@ -43,17 +43,17 @@ Shkruaj \"EXIT\" per te ndaluar programi!""")
                     clientSocket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
                 except socket.error as msg:
                     print("Could not create socket "+str(msg))
-            elif method not in komandat:
-                print("Komanda jo valide!")          
+            # elif method not in komandat:
+            #     print("Komanda jo valide!")          
             else:
-                clientSocket.sendto(str.encode(method),(serverName,serverPort))
-                serverAnswerByte = clientSocket.recv(128)
-                serverAnswer = serverAnswerByte.decode("utf-8")
-                print(serverAnswer)
-                print("Ju mund te jepni vetem nje komand.Tani serveri dhe klienti do mbyllen!")
-                time.sleep(5)  
+                clientSocket.sendto(str(method).encode(),(serverName,serverPort))
+                answer, address = clientSocket.recvfrom(128)
+                print(str(answer.decode()).strip())
+                print("Ju mund te jepni vetem nje komand.")
+                input("Press any key to continue...") 
                 sys.exit()     
 except TimeoutError:
         print("Serveri morri shume kohe per tu pergjigjur andaj lidhja u mbyll!")
+clientSocket.close()
 
  
