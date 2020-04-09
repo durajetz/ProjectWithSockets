@@ -41,15 +41,10 @@ def count(fjalia):
             n += 1
         # else:  #Ne raste se deshirojm qe inputi te permbaj vetem karaktere te alfabetit                         
         #     return str("GABIM,ju duhet te jepni nje varg te karakterve(String)")                                        
-    return str("Fjalia ka " + str(k) + " zanore dhe " + str(n) + " bashketingellore") 
+    return str("\" " + fjalia+"\""+" ka " + str(k) + " zanore dhe " + str(n) + " bashketingellore") 
 
 def reverse(fjalia):
-    fjaliaReverse=""
-    i=len(fjalia)-1
-    while(i>=0):
-        fjaliaReverse+=fjalia[i]
-        i-=1
-    return fjaliaReverse.strip()
+    return fjalia[::-1].strip() # mos me lon hapsira ne fillim dhe fund
 
 def palindrome(fjala):
     string1 = fjala.replace(" ","")  #Ne rast se e shkruajm psh: mad[hapsir]am --> me na e shfaq true
